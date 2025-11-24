@@ -1,4 +1,4 @@
-import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type StockWithChange } from "@shared/schema";
+import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type Broker, type InsertBroker, type StockWithChange } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -13,17 +13,22 @@ export interface IStorage {
   
   // News
   getAllNews(): Promise<News[]>;
+  
+  // Brokers
+  getAllBrokers(): Promise<Broker[]>;
 }
 
 export class MemStorage implements IStorage {
   private stocks: Map<string, Stock>;
   private watchlist: Map<string, Watchlist>;
   private news: Map<string, News>;
+  private brokers: Map<string, Broker>;
 
   constructor() {
     this.stocks = new Map();
     this.watchlist = new Map();
     this.news = new Map();
+    this.brokers = new Map();
     this.seedData();
   }
 
@@ -219,6 +224,24 @@ export class MemStorage implements IStorage {
     newsItems.forEach(news => {
       this.news.set(news.id, news);
     });
+
+    // Seed Kenyan brokers with realistic data
+    const brokerData: InsertBroker[] = [
+      { id: "KSEC", name: "Kenia Securities Brokers", tradingVolume: 2450.50, tradesCount: 45320, marketShare: 18.5, performanceChange: 3.2 },
+      { id: "DYER", name: "Dyer & Blair", tradingVolume: 1820.75, tradesCount: 38920, marketShare: 14.2, performanceChange: 2.1 },
+      { id: "EQSEC", name: "Equity Securities Limited", tradingVolume: 1650.25, tradesCount: 34560, marketShare: 12.8, performanceChange: 4.5 },
+      { id: "STANC", name: "Standard Chartered Securities", tradingVolume: 1425.80, tradesCount: 29850, marketShare: 11.1, performanceChange: -1.2 },
+      { id: "AIB", name: "AIB Capital", tradingVolume: 1200.45, tradesCount: 22140, marketShare: 9.3, performanceChange: 5.8 },
+      { id: "INVESTRUST", name: "Investrust Securities", tradingVolume: 950.20, tradesCount: 18760, marketShare: 7.4, performanceChange: 2.3 },
+      { id: "DRYASS", name: "Dry Associates", tradingVolume: 820.60, tradesCount: 15320, marketShare: 6.4, performanceChange: -0.5 },
+      { id: "KPMG", name: "KPMG Securities", tradingVolume: 685.30, tradesCount: 12450, marketShare: 5.3, performanceChange: 3.9 },
+      { id: "EWSEC", name: "Ernst & Young Securities", tradingVolume: 520.40, tradesCount: 9820, marketShare: 4.0, performanceChange: 1.7 },
+      { id: "DTSE", name: "Diamond Trust Securities", tradingVolume: 425.50, tradesCount: 7650, marketShare: 3.3, performanceChange: -2.1 },
+    ];
+
+    brokerData.forEach(broker => {
+      this.brokers.set(broker.id, { ...broker, lastUpdated: new Date() });
+    });
   }
 
   async getAllStocks(): Promise<StockWithChange[]> {
@@ -261,6 +284,12 @@ export class MemStorage implements IStorage {
   async getAllNews(): Promise<News[]> {
     return Array.from(this.news.values()).sort(
       (a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()
+    );
+  }
+
+  async getAllBrokers(): Promise<Broker[]> {
+    return Array.from(this.brokers.values()).sort(
+      (a, b) => b.tradingVolume - a.tradingVolume
     );
   }
 }

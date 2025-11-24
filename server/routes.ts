@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertWatchlistSchema } from "@shared/schema";
+import { insertWatchlistSchema, insertBrokerSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all stocks with calculated changes
@@ -69,6 +69,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(news);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch news" });
+    }
+  });
+
+  // Get all brokers
+  app.get("/api/brokers", async (_req, res) => {
+    try {
+      const brokers = await storage.getAllBrokers();
+      res.json(brokers);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch brokers" });
     }
   });
 

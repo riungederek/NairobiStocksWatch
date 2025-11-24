@@ -40,6 +40,17 @@ export const news = pgTable("news", {
   relatedStocks: text("related_stocks").array(),
 });
 
+// Brokers - NSE licensed stock brokers
+export const brokers = pgTable("brokers", {
+  id: varchar("id").primaryKey(),
+  name: text("name").notNull(),
+  tradingVolume: real("trading_volume").notNull(), // in millions
+  tradesCount: integer("trades_count").notNull(),
+  marketShare: real("market_share").notNull(), // in percentage
+  performanceChange: real("performance_change").notNull(), // percentage change
+  lastUpdated: timestamp("last_updated").notNull().default(sql`now()`),
+});
+
 // Insert schemas
 export const insertStockSchema = createInsertSchema(stocks).omit({
   lastUpdated: true,
@@ -52,6 +63,10 @@ export const insertWatchlistSchema = createInsertSchema(watchlist).omit({
 
 export const insertNewsSchema = createInsertSchema(news).omit({});
 
+export const insertBrokerSchema = createInsertSchema(brokers).omit({
+  lastUpdated: true,
+});
+
 // Types
 export type InsertStock = z.infer<typeof insertStockSchema>;
 export type Stock = typeof stocks.$inferSelect;
@@ -61,6 +76,9 @@ export type Watchlist = typeof watchlist.$inferSelect;
 
 export type InsertNews = z.infer<typeof insertNewsSchema>;
 export type News = typeof news.$inferSelect;
+
+export type InsertBroker = z.infer<typeof insertBrokerSchema>;
+export type Broker = typeof brokers.$inferSelect;
 
 // Helper types for frontend
 export type StockWithChange = Stock & {

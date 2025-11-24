@@ -3,12 +3,13 @@ import { Header } from "@/components/header";
 import { MarketStats } from "@/components/market-stats";
 import { StockCard } from "@/components/stock-card";
 import { NewsCard } from "@/components/news-card";
+import { BrokerCard } from "@/components/broker-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TrendingUp, Newspaper, Star, BarChart3 } from "lucide-react";
-import type { StockWithChange, News, Watchlist } from "@shared/schema";
+import { TrendingUp, Newspaper, Star, BarChart3, Users } from "lucide-react";
+import type { StockWithChange, News, Watchlist, Broker } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -25,6 +26,10 @@ export default function Dashboard() {
 
   const { data: news = [], isLoading: isLoadingNews } = useQuery<News[]>({
     queryKey: ["/api/news"],
+  });
+
+  const { data: brokers = [], isLoading: isLoadingBrokers } = useQuery<Broker[]>({
+    queryKey: ["/api/brokers"],
   });
 
   const toggleWatchlistMutation = useMutation({
@@ -56,7 +61,7 @@ export default function Dashboard() {
   const watchlistStocks = stocks.filter((stock) => watchlistStockIds.has(stock.id));
   const trendingStocks = [...stocks].sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent)).slice(0, 9);
 
-  const isLoading = isLoadingStocks || isLoadingWatchlist || isLoadingNews;
+  const isLoading = isLoadingStocks || isLoadingWatchlist || isLoadingNews || isLoadingBrokers;
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,22 +93,21 @@ export default function Dashboard() {
             {/* Mobile: Tab-based navigation */}
             <div className="lg:hidden">
               <Tabs defaultValue="market" className="w-full">
-                <TabsList className="w-full grid grid-cols-4 mb-4">
-                  <TabsTrigger value="market" data-testid="tab-market" className="text-xs sm:text-sm">
-                    <BarChart3 className="h-4 w-4 sm:mr-1" />
-                    <span className="hidden sm:inline">Market</span>
+                <TabsList className="w-full grid grid-cols-5 mb-4">
+                  <TabsTrigger value="market" data-testid="tab-market" className="text-xs">
+                    <BarChart3 className="h-4 w-4" />
                   </TabsTrigger>
-                  <TabsTrigger value="trending" data-testid="tab-trending-mobile" className="text-xs sm:text-sm">
-                    <TrendingUp className="h-4 w-4 sm:mr-1" />
-                    <span className="hidden sm:inline">Trending</span>
+                  <TabsTrigger value="trending" data-testid="tab-trending-mobile" className="text-xs">
+                    <TrendingUp className="h-4 w-4" />
                   </TabsTrigger>
-                  <TabsTrigger value="watchlist" data-testid="tab-watchlist-mobile" className="text-xs sm:text-sm">
-                    <Star className="h-4 w-4 sm:mr-1" />
-                    <span className="hidden sm:inline">Watchlist</span>
+                  <TabsTrigger value="watchlist" data-testid="tab-watchlist-mobile" className="text-xs">
+                    <Star className="h-4 w-4" />
                   </TabsTrigger>
-                  <TabsTrigger value="news" data-testid="tab-news-mobile" className="text-xs sm:text-sm">
-                    <Newspaper className="h-4 w-4 sm:mr-1" />
-                    <span className="hidden sm:inline">News</span>
+                  <TabsTrigger value="brokers" data-testid="tab-brokers-mobile" className="text-xs">
+                    <Users className="h-4 w-4" />
+                  </TabsTrigger>
+                  <TabsTrigger value="news" data-testid="tab-news-mobile" className="text-xs">
+                    <Newspaper className="h-4 w-4" />
                   </TabsTrigger>
                 </TabsList>
 
@@ -162,6 +166,24 @@ export default function Dashboard() {
                           isInWatchlist={true}
                           onToggleWatchlist={(stockId) => toggleWatchlistMutation.mutate(stockId)}
                         />
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="brokers" className="space-y-4">
+                  <div className="mb-2">
+                    <h2 className="text-2xl font-bold">NSE Brokers</h2>
+                  </div>
+                  {brokers.length === 0 ? (
+                    <Card className="p-8 text-center">
+                      <Users className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+                      <p className="text-muted-foreground text-sm">No brokers available</p>
+                    </Card>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {brokers.map((broker, idx) => (
+                        <BrokerCard key={broker.id} broker={broker} rank={idx + 1} />
                       ))}
                     </div>
                   )}
@@ -254,24 +276,45 @@ export default function Dashboard() {
                   </Tabs>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Newspaper className="h-5 w-5 text-primary" />
-                    <h2 className="text-2xl font-bold">Market News</h2>
+                <div className="space-y-8">
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Users className="h-5 w-5 text-primary" />
+                      <h2 className="text-2xl font-bold">NSE Brokers</h2>
+                    </div>
+                    {brokers.length === 0 ? (
+                      <Card className="p-8 text-center">
+                        <Users className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+                        <p className="text-muted-foreground text-sm">No brokers available</p>
+                      </Card>
+                    ) : (
+                      <div className="grid grid-cols-1 gap-4">
+                        {brokers.slice(0, 5).map((broker, idx) => (
+                          <BrokerCard key={broker.id} broker={broker} rank={idx + 1} />
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {news.length === 0 ? (
-                    <Card className="p-8 text-center">
-                      <Newspaper className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
-                      <p className="text-muted-foreground text-sm">No news available</p>
-                    </Card>
-                  ) : (
-                    <div className="space-y-4">
-                      {news.slice(0, 6).map((article) => (
-                        <NewsCard key={article.id} news={article} />
-                      ))}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Newspaper className="h-5 w-5 text-primary" />
+                      <h2 className="text-2xl font-bold">Market News</h2>
                     </div>
-                  )}
+
+                    {news.length === 0 ? (
+                      <Card className="p-8 text-center">
+                        <Newspaper className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+                        <p className="text-muted-foreground text-sm">No news available</p>
+                      </Card>
+                    ) : (
+                      <div className="space-y-4">
+                        {news.slice(0, 6).map((article) => (
+                          <NewsCard key={article.id} news={article} />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
