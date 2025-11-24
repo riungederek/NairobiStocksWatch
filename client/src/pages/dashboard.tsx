@@ -60,6 +60,7 @@ export default function Dashboard() {
   const watchlistStockIds = new Set(watchlist.map((item) => item.stockId));
   const watchlistStocks = stocks.filter((stock) => watchlistStockIds.has(stock.id));
   const trendingStocks = [...stocks].sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent)).slice(0, 9);
+  const topPerformingBrokers = [...brokers].sort((a, b) => b.performanceChange - a.performanceChange).slice(0, 3);
 
   const isLoading = isLoadingStocks || isLoadingWatchlist || isLoadingNews || isLoadingBrokers;
 
@@ -116,6 +117,24 @@ export default function Dashboard() {
                     <h1 className="text-2xl font-bold">Market Dashboard</h1>
                   </div>
                   <MarketStats stocks={stocks} />
+                  
+                  <div className="mt-6">
+                    <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Top Performing Brokers
+                    </h2>
+                    {topPerformingBrokers.length === 0 ? (
+                      <Card className="p-4 text-center">
+                        <p className="text-muted-foreground text-sm">No broker data available</p>
+                      </Card>
+                    ) : (
+                      <div className="grid grid-cols-1 gap-3">
+                        {topPerformingBrokers.map((broker, idx) => (
+                          <BrokerCard key={broker.id} broker={broker} rank={idx + 1} />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="trending" className="space-y-4">
@@ -212,6 +231,25 @@ export default function Dashboard() {
             {/* Desktop: Original sidebar layout */}
             <div className="hidden lg:block">
               <MarketStats stocks={stocks} />
+
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                  <Users className="h-6 w-6 text-primary" />
+                  Top Performing Brokers
+                </h2>
+                {topPerformingBrokers.length === 0 ? (
+                  <Card className="p-8 text-center">
+                    <Users className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+                    <p className="text-muted-foreground text-sm">No broker data available</p>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {topPerformingBrokers.map((broker, idx) => (
+                      <BrokerCard key={broker.id} broker={broker} rank={idx + 1} />
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
