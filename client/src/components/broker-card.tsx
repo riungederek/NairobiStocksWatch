@@ -1,18 +1,20 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 import type { Broker } from "@shared/schema";
 
 interface BrokerCardProps {
   broker: Broker;
   rank: number;
+  isClickable?: boolean;
 }
 
-export function BrokerCard({ broker, rank }: BrokerCardProps) {
+export function BrokerCard({ broker, rank, isClickable = true }: BrokerCardProps) {
   const isPositive = broker.performanceChange >= 0;
 
-  return (
-    <Card className="p-4 sm:p-6 hover-elevate active-elevate-2 transition-all" data-testid={`card-broker-${broker.id}`}>
+  const cardContent = (
+    <Card className="p-4 sm:p-6 hover-elevate active-elevate-2 transition-all group cursor-pointer" data-testid={`card-broker-${broker.id}`}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -21,6 +23,7 @@ export function BrokerCard({ broker, rank }: BrokerCardProps) {
               {broker.name}
             </h3>
           </div>
+          {isClickable && <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 mt-1" />}
           <div className="flex items-center gap-2 flex-wrap">
             <Badge variant="secondary" className="text-xs">
               {broker.marketShare.toFixed(2)}% Market
@@ -60,4 +63,10 @@ export function BrokerCard({ broker, rank }: BrokerCardProps) {
       </div>
     </Card>
   );
+
+  if (isClickable) {
+    return <Link href={`/broker/${broker.id}`}>{cardContent}</Link>;
+  }
+
+  return cardContent;
 }

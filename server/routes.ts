@@ -82,6 +82,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get broker by ID
+  app.get("/api/brokers/:id", async (req, res) => {
+    try {
+      const broker = await storage.getBrokerById(req.params.id);
+      if (!broker) {
+        res.status(404).json({ error: "Broker not found" });
+        return;
+      }
+      res.json(broker);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch broker" });
+    }
+  });
+
+  // Get broker investments
+  app.get("/api/brokers/:id/investments", async (req, res) => {
+    try {
+      const investments = await storage.getBrokerInvestments(req.params.id);
+      const stocks = await storage.getAllStocks();
+      
+      // Enrich investments with stock data
+      const enrichedInvestments = investments.map(inv => ({
+        ...inv,
+        stockData: stocks.find(s => s.id === inv.stockId),
+      }));
+      
+      res.json(enrichedInvestments.sort((a, b) => b.investmentAmount - a.investmentAmount));
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch broker investments" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

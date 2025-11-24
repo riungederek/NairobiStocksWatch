@@ -1,4 +1,4 @@
-import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type Broker, type InsertBroker, type StockWithChange } from "@shared/schema";
+import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type Broker, type InsertBroker, type BrokerInvestment, type InsertBrokerInvestment, type StockWithChange } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -16,6 +16,8 @@ export interface IStorage {
   
   // Brokers
   getAllBrokers(): Promise<Broker[]>;
+  getBrokerById(id: string): Promise<Broker | undefined>;
+  getBrokerInvestments(brokerId: string): Promise<BrokerInvestment[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -23,12 +25,14 @@ export class MemStorage implements IStorage {
   private watchlist: Map<string, Watchlist>;
   private news: Map<string, News>;
   private brokers: Map<string, Broker>;
+  private brokerInvestments: Map<string, BrokerInvestment>;
 
   constructor() {
     this.stocks = new Map();
     this.watchlist = new Map();
     this.news = new Map();
     this.brokers = new Map();
+    this.brokerInvestments = new Map();
     this.seedData();
   }
 
@@ -242,6 +246,46 @@ export class MemStorage implements IStorage {
     brokerData.forEach(broker => {
       this.brokers.set(broker.id, { ...broker, lastUpdated: new Date() });
     });
+
+    // Seed broker investments - showing where each broker is investing
+    const investmentData: InsertBrokerInvestment[] = [
+      // Kenia Securities Brokers investments
+      { brokerId: "KSEC", stockId: "SCOM", investmentAmount: 850.25, percentageOfPortfolio: 34.7 },
+      { brokerId: "KSEC", stockId: "EQTY", investmentAmount: 625.50, percentageOfPortfolio: 25.5 },
+      { brokerId: "KSEC", stockId: "KCB", investmentAmount: 450.75, percentageOfPortfolio: 18.4 },
+      { brokerId: "KSEC", stockId: "EABL", investmentAmount: 325.20, percentageOfPortfolio: 13.3 },
+      { brokerId: "KSEC", stockId: "BRIT", investmentAmount: 198.80, percentageOfPortfolio: 8.1 },
+      
+      // Dyer & Blair investments
+      { brokerId: "DYER", stockId: "EQTY", investmentAmount: 545.30, percentageOfPortfolio: 29.9 },
+      { brokerId: "DYER", stockId: "SCOM", investmentAmount: 480.20, percentageOfPortfolio: 26.4 },
+      { brokerId: "DYER", stockId: "BAT", investmentAmount: 390.15, percentageOfPortfolio: 21.4 },
+      { brokerId: "DYER", stockId: "SCBK", investmentAmount: 268.50, percentageOfPortfolio: 14.7 },
+      { brokerId: "DYER", stockId: "JUBI", investmentAmount: 136.60, percentageOfPortfolio: 7.5 },
+      
+      // Equity Securities Limited investments
+      { brokerId: "EQSEC", stockId: "KCB", investmentAmount: 520.80, percentageOfPortfolio: 31.5 },
+      { brokerId: "EQSEC", stockId: "EQTY", investmentAmount: 410.35, percentageOfPortfolio: 24.8 },
+      { brokerId: "EQSEC", stockId: "SCOM", investmentAmount: 385.20, percentageOfPortfolio: 23.3 },
+      { brokerId: "EQSEC", stockId: "COOP", investmentAmount: 245.10, percentageOfPortfolio: 14.8 },
+      { brokerId: "EQSEC", stockId: "CIC", investmentAmount: 89.80, percentageOfPortfolio: 5.4 },
+      
+      // Standard Chartered Securities investments
+      { brokerId: "STANC", stockId: "SCOM", investmentAmount: 620.40, percentageOfPortfolio: 43.5 },
+      { brokerId: "STANC", stockId: "BAMB", investmentAmount: 380.25, percentageOfPortfolio: 26.7 },
+      { brokerId: "STANC", stockId: "KEGN", investmentAmount: 285.80, percentageOfPortfolio: 20.0 },
+      { brokerId: "STANC", stockId: "KPLC", investmentAmount: 138.35, percentageOfPortfolio: 9.7 },
+      
+      // AIB Capital investments
+      { brokerId: "AIB", stockId: "EABL", investmentAmount: 480.50, percentageOfPortfolio: 40.0 },
+      { brokerId: "AIB", stockId: "EQTY", investmentAmount: 365.20, percentageOfPortfolio: 30.4 },
+      { brokerId: "AIB", stockId: "BAT", investmentAmount: 280.15, percentageOfPortfolio: 23.3 },
+      { brokerId: "AIB", stockId: "CENTUM", investmentAmount: 74.60, percentageOfPortfolio: 6.2 },
+    ];
+
+    investmentData.forEach(investment => {
+      this.brokerInvestments.set(randomUUID(), { id: randomUUID(), ...investment, createdAt: new Date() });
+    });
   }
 
   async getAllStocks(): Promise<StockWithChange[]> {
@@ -290,6 +334,16 @@ export class MemStorage implements IStorage {
   async getAllBrokers(): Promise<Broker[]> {
     return Array.from(this.brokers.values()).sort(
       (a, b) => b.tradingVolume - a.tradingVolume
+    );
+  }
+
+  async getBrokerById(id: string): Promise<Broker | undefined> {
+    return this.brokers.get(id);
+  }
+
+  async getBrokerInvestments(brokerId: string): Promise<BrokerInvestment[]> {
+    return Array.from(this.brokerInvestments.values()).filter(
+      (inv) => inv.brokerId === brokerId
     );
   }
 }

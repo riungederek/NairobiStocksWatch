@@ -51,6 +51,16 @@ export const brokers = pgTable("brokers", {
   lastUpdated: timestamp("last_updated").notNull().default(sql`now()`),
 });
 
+// Broker investments - stocks brokers are investing in
+export const brokerInvestments = pgTable("broker_investments", {
+  id: varchar("id").primaryKey(),
+  brokerId: varchar("broker_id").notNull(),
+  stockId: varchar("stock_id").notNull(),
+  investmentAmount: real("investment_amount").notNull(), // in millions
+  percentageOfPortfolio: real("percentage_of_portfolio").notNull(),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
 // Insert schemas
 export const insertStockSchema = createInsertSchema(stocks).omit({
   lastUpdated: true,
@@ -67,6 +77,11 @@ export const insertBrokerSchema = createInsertSchema(brokers).omit({
   lastUpdated: true,
 });
 
+export const insertBrokerInvestmentSchema = createInsertSchema(brokerInvestments).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertStock = z.infer<typeof insertStockSchema>;
 export type Stock = typeof stocks.$inferSelect;
@@ -80,6 +95,9 @@ export type News = typeof news.$inferSelect;
 export type InsertBroker = z.infer<typeof insertBrokerSchema>;
 export type Broker = typeof brokers.$inferSelect;
 
+export type InsertBrokerInvestment = z.infer<typeof insertBrokerInvestmentSchema>;
+export type BrokerInvestment = typeof brokerInvestments.$inferSelect;
+
 // Helper types for frontend
 export type StockWithChange = Stock & {
   change: number;
@@ -89,4 +107,8 @@ export type StockWithChange = Stock & {
 
 export type NewsWithRelated = News & {
   relatedStocksData?: Stock[];
+};
+
+export type BrokerInvestmentWithStock = BrokerInvestment & {
+  stockData?: StockWithChange;
 };
