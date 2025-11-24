@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Activity } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, ArrowRight } from "lucide-react";
 import type { StockWithChange } from "@shared/schema";
+import { Link } from "wouter";
 
 interface MarketStatsProps {
   stocks: StockWithChange[];
@@ -32,37 +33,47 @@ export function MarketStats({ stocks }: MarketStatsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <Card className="p-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-md bg-primary/10">
-            <TrendingUp className="h-5 w-5 text-primary" />
+      <Link href={`/stock/${topGainer.id}`}>
+        <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all group" data-testid={`card-top-gainer-${topGainer.id}`}>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-md bg-primary/10">
+                <TrendingUp className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-sm text-muted-foreground">Top Gainer</h3>
+            </div>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
           </div>
-          <h3 className="font-semibold text-sm text-muted-foreground">Top Gainer</h3>
-        </div>
-        <div className="space-y-1">
-          <div className="font-bold text-2xl" data-testid="text-top-gainer-name">{topGainer.ticker}</div>
-          <div className="flex items-center gap-2">
-            <span className="text-primary font-semibold">+{topGainer.changePercent.toFixed(2)}%</span>
-            <span className="text-sm text-muted-foreground">KES {topGainer.currentPrice.toFixed(2)}</span>
+          <div className="space-y-1">
+            <div className="font-bold text-2xl" data-testid="text-top-gainer-name">{topGainer.ticker}</div>
+            <div className="flex items-center gap-2">
+              <span className="text-primary font-semibold">+{topGainer.changePercent.toFixed(2)}%</span>
+              <span className="text-sm text-muted-foreground">KES {topGainer.currentPrice.toFixed(2)}</span>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </Link>
 
-      <Card className="p-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-md bg-destructive/10">
-            <TrendingDown className="h-5 w-5 text-destructive" />
+      <Link href={`/stock/${topLoser.id}`}>
+        <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all group" data-testid={`card-top-loser-${topLoser.id}`}>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-md bg-destructive/10">
+                <TrendingDown className="h-5 w-5 text-destructive" />
+              </div>
+              <h3 className="font-semibold text-sm text-muted-foreground">Top Loser</h3>
+            </div>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-destructive transition-colors opacity-0 group-hover:opacity-100" />
           </div>
-          <h3 className="font-semibold text-sm text-muted-foreground">Top Loser</h3>
-        </div>
-        <div className="space-y-1">
-          <div className="font-bold text-2xl" data-testid="text-top-loser-name">{topLoser.ticker}</div>
-          <div className="flex items-center gap-2">
-            <span className="text-destructive font-semibold">{topLoser.changePercent.toFixed(2)}%</span>
-            <span className="text-sm text-muted-foreground">KES {topLoser.currentPrice.toFixed(2)}</span>
+          <div className="space-y-1">
+            <div className="font-bold text-2xl" data-testid="text-top-loser-name">{topLoser.ticker}</div>
+            <div className="flex items-center gap-2">
+              <span className="text-destructive font-semibold">{topLoser.changePercent.toFixed(2)}%</span>
+              <span className="text-sm text-muted-foreground">KES {topLoser.currentPrice.toFixed(2)}</span>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </Link>
 
       <Card className="p-6">
         <div className="flex items-center gap-3 mb-2">
