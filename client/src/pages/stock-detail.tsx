@@ -2,15 +2,21 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { Header } from "@/components/header";
 import { StockChart } from "@/components/stock-chart";
+import { AIInsights } from "@/components/ai-insights";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star, ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { Link } from "wouter";
-import type { StockWithChange, Watchlist } from "@shared/schema";
+import type { StockWithChange, Watchlist, News } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+
+interface InsightData {
+  insight: string;
+  relatedNews: News[];
+}
 
 export default function StockDetail() {
   const [, params] = useRoute("/stock/:id");
@@ -27,6 +33,11 @@ export default function StockDetail() {
 
   const stock = allStocks.find((s) => s.id === stockId);
   const isInWatchlist = watchlist.some((item) => item.stockId === stockId);
+
+  const { data: insightData, isLoading: insightLoading } = useQuery<InsightData>({
+    queryKey: [`/api/stocks/${stockId}/insights`],
+    enabled: !!stockId,
+  });
 
   const toggleWatchlistMutation = useMutation({
     mutationFn: async () => {
@@ -141,6 +152,12 @@ export default function StockDetail() {
           </Card>
 
           <StockChart currentPrice={stock.currentPrice} ticker={stock.ticker} />
+
+          <AIInsights 
+            insight={insightData?.insight || ""}
+            relatedNews={insightData?.relatedNews}
+            isLoading={insightLoading}
+          />
 
           <div>
             <h2 className="text-2xl font-bold mb-6">Key Statistics</h2>

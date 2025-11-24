@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { Header } from "@/components/header";
+import { AIInsights } from "@/components/ai-insights";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,6 +11,16 @@ import type { Broker, StockWithChange, BrokerInvestmentWithStock } from "@shared
 
 interface EnrichedInvestment extends BrokerInvestmentWithStock {
   stockData?: StockWithChange;
+}
+
+interface InsightData {
+  insight: string;
+  topHoldings: Array<{
+    ticker: string;
+    percentageOfPortfolio: number;
+    currentPrice: number;
+    changePercent: number;
+  }>;
 }
 
 export default function BrokerDetail() {
@@ -30,7 +41,12 @@ export default function BrokerDetail() {
     enabled: !!brokerId,
   });
 
-  const isLoading = brokerLoading || investmentsLoading;
+  const { data: insightData, isLoading: insightLoading } = useQuery<InsightData>({
+    queryKey: [`/api/brokers/${brokerId}/insights`],
+    enabled: !!brokerId,
+  });
+
+  const isLoading = brokerLoading || investmentsLoading || insightLoading;
 
   const isPositive = broker?.performanceChange ?? 0 >= 0;
 
@@ -53,12 +69,10 @@ export default function BrokerDetail() {
       <Header stocks={stocks} />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <button onClick={() => setLocation("/")} className="mb-6 inline-flex items-center gap-2">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
-          </Button>
-        </button>
+        <Button variant="ghost" size="sm" onClick={() => setLocation("/")} className="mb-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Dashboard
+        </Button>
 
         {isLoading ? (
           <div className="space-y-8">
@@ -109,6 +123,12 @@ export default function BrokerDetail() {
                 </div>
               </div>
             </Card>
+
+            {/* AI Insights */}
+            <AIInsights 
+              insight={insightData?.insight || ""}
+              isLoading={insightLoading}
+            />
 
             {/* Investments Section */}
             <div>
