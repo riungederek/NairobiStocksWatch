@@ -6,20 +6,71 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Fallback insights when API is unavailable
+function generateFallbackStockInsight(
+  stock: StockWithChange,
+  relatedNews: News[],
+  marketContext: { topGainer: StockWithChange; topLoser: StockWithChange; avgChange: number }
+): string {
+  const isOutperforming = stock.changePercent > marketContext.avgChange;
+  const newsCount = relatedNews.length;
+  
+  let recommendation = "HOLD";
+  let reason = "";
+
+  if (stock.changePercent > 5) {
+    recommendation = "BUY";
+    reason = "Strong upward momentum with significant price gains";
+  } else if (stock.changePercent < -5) {
+    recommendation = "SELL";
+    reason = "Significant downward pressure";
+  } else if (isOutperforming && newsCount > 0) {
+    recommendation = "BUY";
+    reason = "Outperforming market with positive news coverage";
+  } else if (stock.peRatio && stock.peRatio < 8) {
+    recommendation = "BUY";
+    reason = "Attractive valuation metrics";
+  }
+
+  const performanceText = stock.changePercent >= 0 ? "gaining" : "declining";
+  const newsContext = newsCount > 0 
+    ? `with ${newsCount} recent news item${newsCount > 1 ? 's' : ''} shaping investor sentiment`
+    : "with limited recent news coverage";
+
+  return `${stock.ticker} is currently ${performanceText} ${Math.abs(stock.changePercent).toFixed(2)}% today ${newsContext}. The stock is ${isOutperforming ? 'outperforming' : 'underperforming'} the broader market average of ${marketContext.avgChange.toFixed(2)}%. 
+
+**Recommendation: ${recommendation}** - ${reason}. Current price of KES ${stock.currentPrice.toFixed(2)} represents the current market consensus for this ${stock.sector} company.`;
+}
+
+function generateFallbackBrokerInsight(
+  broker: Broker,
+  topHoldings: Array<{ ticker: string; percentageOfPortfolio: number; currentPrice: number; changePercent: number }>,
+  marketContext: { avgChange: number }
+): string {
+  const topHolding = topHoldings[0];
+  const topSectorExposure = topHoldings.slice(0, 3).reduce((sum, h) => sum + h.percentageOfPortfolio, 0);
+  const outperforming = broker.performanceChange > marketContext.avgChange;
+
+  return `${broker.name} manages a diversified portfolio with top holding in ${topHolding?.ticker || 'various stocks'} (${topHolding?.percentageOfPortfolio.toFixed(1) || 'N/A'}% of portfolio). The broker's top 3 positions account for approximately ${topSectorExposure.toFixed(1)}% of managed assets.
+
+Performance Context: The broker's ${broker.performanceChange >= 0 ? '+' : ''}${broker.performanceChange.toFixed(2)}% return is currently ${outperforming ? 'outperforming' : 'underperforming'} the market average. With ${broker.tradesCount.toLocaleString('en-KE')} trades executed and ${broker.marketShare.toFixed(2)}% market share, this broker maintains a significant presence in NSE trading activity.`;
+}
+
 export async function generateStockInsight(
   stock: StockWithChange,
   relatedNews: News[],
   marketContext: { topGainer: StockWithChange; topLoser: StockWithChange; avgChange: number }
 ): Promise<string> {
-  const newsContext = relatedNews
-    .slice(0, 3)
-    .map(
-      (n) =>
-        `- ${n.title} (${new Date(n.publishedAt).toLocaleDateString()}): ${n.description}`
-    )
-    .join("\n");
+  try {
+    const newsContext = relatedNews
+      .slice(0, 3)
+      .map(
+        (n) =>
+          `- ${n.title} (${new Date(n.publishedAt).toLocaleDateString()}): ${n.description}`
+      )
+      .join("\n");
 
-  const prompt = `You are a financial analyst providing insights on NSE (Nairobi Stock Exchange) stocks. Analyze the following stock and provide actionable insights for an investor.
+    const prompt = `You are a financial analyst providing insights on NSE (Nairobi Stock Exchange) stocks. Analyze the following stock and provide actionable insights for an investor.
 
 STOCK DATA:
 - Ticker: ${stock.ticker}
@@ -48,23 +99,27 @@ Provide a brief analysis (2-3 sentences) that:
 
 Keep the response concise, professional, and data-driven.`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-5",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a financial analyst for the Nairobi Stock Exchange. Provide concise, actionable insights based on market data and news.",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    max_completion_tokens: 500,
-  });
+    const response = await openai.chat.completions.create({
+      model: "gpt-5",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a financial analyst for the Nairobi Stock Exchange. Provide concise, actionable insights based on market data and news.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      max_completion_tokens: 500,
+    });
 
-  return response.choices[0].message.content || "Unable to generate insights at this time.";
+    return response.choices[0].message.content || "Unable to generate insights at this time.";
+  } catch (error) {
+    console.warn("AI service unavailable, using fallback insights");
+    return generateFallbackStockInsight(stock, relatedNews, marketContext);
+  }
 }
 
 export async function generateBrokerInsight(
@@ -72,15 +127,16 @@ export async function generateBrokerInsight(
   topHoldings: Array<{ ticker: string; percentageOfPortfolio: number; currentPrice: number; changePercent: number }>,
   marketContext: { avgChange: number }
 ): Promise<string> {
-  const holdingsContext = topHoldings
-    .slice(0, 5)
-    .map(
-      (h) =>
-        `- ${h.ticker}: ${h.percentageOfPortfolio.toFixed(1)}% of portfolio (${h.changePercent >= 0 ? '+' : ''}${h.changePercent.toFixed(2)}% today)`
-    )
-    .join("\n");
+  try {
+    const holdingsContext = topHoldings
+      .slice(0, 5)
+      .map(
+        (h) =>
+          `- ${h.ticker}: ${h.percentageOfPortfolio.toFixed(1)}% of portfolio (${h.changePercent >= 0 ? '+' : ''}${h.changePercent.toFixed(2)}% today)`
+      )
+      .join("\n");
 
-  const prompt = `You are an investment analyst evaluating broker performance on the Nairobi Stock Exchange. Analyze the following broker's portfolio strategy and performance.
+    const prompt = `You are an investment analyst evaluating broker performance on the Nairobi Stock Exchange. Analyze the following broker's portfolio strategy and performance.
 
 BROKER INFORMATION:
 - Name: ${broker.name}
@@ -102,21 +158,25 @@ Provide a brief analysis (2-3 sentences) that:
 
 Keep the response concise and professional.`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-5",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are an investment analyst for the Nairobi Stock Exchange. Provide concise analysis of broker performance and portfolio strategy.",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    max_completion_tokens: 500,
-  });
+    const response = await openai.chat.completions.create({
+      model: "gpt-5",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an investment analyst for the Nairobi Stock Exchange. Provide concise analysis of broker performance and portfolio strategy.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      max_completion_tokens: 500,
+    });
 
-  return response.choices[0].message.content || "Unable to generate insights at this time.";
+    return response.choices[0].message.content || "Unable to generate insights at this time.";
+  } catch (error) {
+    console.warn("AI service unavailable, using fallback insights");
+    return generateFallbackBrokerInsight(broker, topHoldings, marketContext);
+  }
 }
