@@ -7,7 +7,7 @@ import express, {
   NextFunction,
 } from "express";
 
-import { registerRoutes } from "../api/routes";
+import { registerRoutes } from "../api/index";
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
