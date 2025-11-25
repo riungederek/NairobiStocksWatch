@@ -1,12 +1,12 @@
 import type { Express } from "express";
-import { storage } from "../server/storage";
+import { getBrokers, getBrokerById, getBrokerInvestments, getStocks } from "../server/storage";
 import { generateBrokerInsight } from "../server/ai";
 
 export function registerBrokerRoutes(app: Express) {
   // Get all brokers
   app.get("/api/brokers", async (_req, res) => {
     try {
-      const brokers = await storage.getAllBrokers();
+      const brokers = await getBrokers();
       res.json(brokers);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch brokers" });
@@ -16,7 +16,7 @@ export function registerBrokerRoutes(app: Express) {
   // Get broker by ID
   app.get("/api/brokers/:id", async (req, res) => {
     try {
-      const broker = await storage.getBrokerById(req.params.id);
+      const broker = await getBrokerById(req.params.id);
       if (!broker) {
         res.status(404).json({ error: "Broker not found" });
         return;
@@ -30,8 +30,8 @@ export function registerBrokerRoutes(app: Express) {
   // Get broker investments
   app.get("/api/brokers/:id/investments", async (req, res) => {
     try {
-      const investments = await storage.getBrokerInvestments(req.params.id);
-      const stocks = await storage.getAllStocks();
+      const investments = await getBrokerInvestments(req.params.id);
+      const stocks = await getStocks();
       
       // Enrich investments with stock data
       const enrichedInvestments = investments.map(inv => ({
@@ -48,14 +48,14 @@ export function registerBrokerRoutes(app: Express) {
   // Get AI insights for a broker
   app.get("/api/brokers/:id/insights", async (req, res) => {
     try {
-      const broker = await storage.getBrokerById(req.params.id);
+      const broker = await getBrokerById(req.params.id);
       if (!broker) {
         res.status(404).json({ error: "Broker not found" });
         return;
       }
 
-      const investments = await storage.getBrokerInvestments(req.params.id);
-      const allStocks = await storage.getAllStocks();
+      const investments = await getBrokerInvestments(req.params.id);
+      const allStocks = await getStocks();
 
       // Enrich investments with stock data
       const topHoldings = investments

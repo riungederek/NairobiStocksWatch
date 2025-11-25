@@ -349,3 +349,14 @@ export class MemStorage implements IStorage {
 }
 
 export const storage = new MemStorage();
+
+// Export named functions for direct use in APIs
+export const getStocks = () => storage.getAllStocks();
+export const getStockById = (id: string) => storage.getStockById(id);
+export const getWatchlist = () => storage.getWatchlist();
+export const addToWatchlist = (item: InsertWatchlist) => storage.addToWatchlist(item);
+export const removeFromWatchlist = (id: string) => storage.removeFromWatchlist(id);
+export const getNews = () => storage.getAllNews();
+export const getBrokers = () => storage.getAllBrokers();
+export const getBrokerById = (id: string) => storage.getBrokerById(id);
+export const getBrokerInvestments = (brokerId: string) => storage.getBrokerInvestments(brokerId);

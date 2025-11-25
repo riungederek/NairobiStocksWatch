@@ -1,12 +1,12 @@
 import type { Express } from "express";
-import { storage } from "../server/storage";
+import { getStocks, getStockById, getNews } from "../server/storage";
 import { generateStockInsight } from "../server/ai";
 
 export function registerStockRoutes(app: Express) {
   // Get all stocks with calculated changes
   app.get("/api/stocks", async (_req, res) => {
     try {
-      const stocks = await storage.getAllStocks();
+      const stocks = await getStocks();
       res.json(stocks);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch stocks" });
@@ -16,7 +16,7 @@ export function registerStockRoutes(app: Express) {
   // Get stock by ID
   app.get("/api/stocks/:id", async (req, res) => {
     try {
-      const stock = await storage.getStockById(req.params.id);
+      const stock = await getStockById(req.params.id);
       if (!stock) {
         return res.status(404).json({ error: "Stock not found" });
       }
@@ -29,14 +29,14 @@ export function registerStockRoutes(app: Express) {
   // Get AI insights for a stock
   app.get("/api/stocks/:id/insights", async (req, res) => {
     try {
-      const stock = await storage.getStockById(req.params.id);
+      const stock = await getStockById(req.params.id);
       if (!stock) {
         res.status(404).json({ error: "Stock not found" });
         return;
       }
 
-      const allStocks = await storage.getAllStocks();
-      const allNews = await storage.getAllNews();
+      const allStocks = await getStocks();
+      const allNews = await getNews();
 
       // Calculate market context
       const topGainer = allStocks.reduce((max, s) => 
