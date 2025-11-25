@@ -118,7 +118,14 @@ export class MemStorage implements IStorage {
     ];
 
     nseStocks.forEach(stock => {
-      this.stocks.set(stock.id, { ...stock, lastUpdated: new Date() });
+      this.stocks.set(stock.id, {
+        ...stock,
+        marketCap: stock.marketCap ?? null,
+        peRatio: stock.peRatio ?? null,
+        week52High: stock.week52High ?? null,
+        week52Low: stock.week52Low ?? null,
+        lastUpdated: new Date(),
+      });
     });
 
     // Seed news data with IPOs and market news
@@ -226,7 +233,11 @@ export class MemStorage implements IStorage {
     ];
 
     newsItems.forEach(news => {
-      this.news.set(news.id, news);
+      this.news.set(news.id, {
+        ...news,
+        imageUrl: news.imageUrl ?? null,
+        relatedStocks: news.relatedStocks ?? null,
+      });
     });
 
     // Seed Kenyan brokers with realistic data
@@ -244,7 +255,14 @@ export class MemStorage implements IStorage {
     ];
 
     brokerData.forEach(broker => {
-      this.brokers.set(broker.id, { ...broker, lastUpdated: new Date() });
+      this.brokers.set(broker.id, {
+        ...broker,
+        tradingVolume: broker.tradingVolume ?? null,
+        tradesCount: broker.tradesCount ?? null,
+        marketShare: broker.marketShare ?? null,
+        performanceChange: broker.performanceChange ?? null,
+        lastUpdated: new Date(),
+      });
     });
 
     // Seed broker investments - showing where each broker is investing
@@ -284,7 +302,13 @@ export class MemStorage implements IStorage {
     ];
 
     investmentData.forEach(investment => {
-      this.brokerInvestments.set(randomUUID(), { id: randomUUID(), ...investment, createdAt: new Date() });
+      this.brokerInvestments.set(randomUUID(), {
+        id: randomUUID(),
+        ...investment,
+        investmentAmount: investment.investmentAmount ?? null,
+        percentageOfPortfolio: investment.percentageOfPortfolio ?? null,
+        createdAt: new Date(),
+      });
     });
   }
 
@@ -295,6 +319,10 @@ export class MemStorage implements IStorage {
       const changePercent = (change / stock.previousClose) * 100;
       return {
         ...stock,
+        marketCap: stock.marketCap ?? null,
+        peRatio: stock.peRatio ?? null,
+        week52High: stock.week52High ?? null,
+        week52Low: stock.week52Low ?? null,
         change,
         changePercent,
         isPositive: changePercent >= 0,
@@ -303,7 +331,15 @@ export class MemStorage implements IStorage {
   }
 
   async getStockById(id: string): Promise<Stock | undefined> {
-    return this.stocks.get(id);
+    const stock = this.stocks.get(id);
+    if (!stock) return undefined;
+    return {
+      ...stock,
+      marketCap: stock.marketCap ?? null,
+      peRatio: stock.peRatio ?? null,
+      week52High: stock.week52High ?? null,
+      week52Low: stock.week52Low ?? null,
+    };
   }
 
   async getWatchlist(): Promise<Watchlist[]> {
