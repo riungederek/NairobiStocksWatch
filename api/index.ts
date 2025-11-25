@@ -1,9 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { registerStockRoutes } from "./stocks";
-import { registerWatchlistRoutes } from "./watchlist";
-import { registerNewsRoutes } from "./news";
-import { registerBrokerRoutes } from "./brokers";
+import { registerStockRoutes } from "./stocks.js";
+import { registerWatchlistRoutes } from "./watchlist.js";
+import { registerNewsRoutes } from "./news.js";
+import { registerBrokerRoutes } from "./brokers.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register all API routes

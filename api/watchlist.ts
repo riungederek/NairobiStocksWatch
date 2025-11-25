@@ -1,6 +1,6 @@
 import type { Express } from "express";
-import { getWatchlist, addToWatchlist, removeFromWatchlist } from "../server/storage";
-import { insertWatchlistSchema } from "@shared/schema";
+import { getWatchlist, addToWatchlist, removeFromWatchlist } from "../server/storage.js";
+import { insertWatchlistSchema } from "@shared/schema.js";
 
 export function registerWatchlistRoutes(app: Express) {
   // Get watchlist

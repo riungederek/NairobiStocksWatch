@@ -1,5 +1,5 @@
 import type { Express } from "express";
-import { getNews } from "../server/storage";
+import { getNews } from "../server/storage.js";
 
 export function registerNewsRoutes(app: Express) {
   // Get all news

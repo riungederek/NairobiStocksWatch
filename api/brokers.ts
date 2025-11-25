@@ -1,6 +1,6 @@
 import type { Express } from "express";
-import { getBrokers, getBrokerById, getBrokerInvestments, getStocks } from "../server/storage";
-import { generateBrokerInsight } from "../server/ai";
+import { getBrokers, getBrokerById, getBrokerInvestments, getStocks } from "../server/storage.js";
+import { generateBrokerInsight } from "../server/ai.js";
 
 export function registerBrokerRoutes(app: Express) {
   // Get all brokers
