@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { getStocks, getStockById, getNews } from "../server/storage.js";
 import { generateStockInsight } from "../server/ai.js";
 
-export function registerStockRoutes(app: Express) {
+export default function registerStockRoutes(app: Express) {
   // Get all stocks with calculated changes
   app.get("/api/stocks", async (_req, res) => {
     try {

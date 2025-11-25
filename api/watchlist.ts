@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from "../server/storage.js";
 import { insertWatchlistSchema } from "@shared/schema.js";
 
-export function registerWatchlistRoutes(app: Express) {
+export default function registerWatchlistRoutes(app: Express) {
   // Get watchlist
   app.get("/api/watchlist", async (_req, res) => {
     try {

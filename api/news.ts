@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { getNews } from "../server/storage.js";
 
-export function registerNewsRoutes(app: Express) {
+export default function registerNewsRoutes(app: Express) {
   // Get all news
   app.get("/api/news", async (_req, res) => {
     try {

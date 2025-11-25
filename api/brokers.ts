@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { getBrokers, getBrokerById, getBrokerInvestments, getStocks } from "../server/storage.js";
 import { generateBrokerInsight } from "../server/ai.js";
 
-export function registerBrokerRoutes(app: Express) {
+export default function registerBrokerRoutes(app: Express) {
   // Get all brokers
   app.get("/api/brokers", async (_req, res) => {
     try {
