@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { getStocks, getStockById, getWatchlist, addToWatchlist, removeFromWatchlist, getNews, getBrokers, getBrokerById, getBrokerInvestments } from "./storage.js";
-import { insertWatchlistSchema } from "@shared/schema.js";
+import { insertWatchlistSchema } from "../shared/schema.js";
 import { generateStockInsight, generateBrokerInsight } from "./ai.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {

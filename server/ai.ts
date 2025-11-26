@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import type { Stock, StockWithChange, Broker, News } from "@shared/schema.js";
+import type { Stock, StockWithChange, Broker, News } from "../shared/schema.js";
 
 // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
 const openai = new OpenAI({

@@ -1,0 +1,168 @@
+Nov 26 17:32:56.50
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:32:56.50
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:32:56.50
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:32:56.50
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:54.36
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:54.36
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:54.34
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:54.34
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:53.64
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:53.64
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:53.64
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:53.64
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:52.74
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.74
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.73
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue. Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:52.73
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.72
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.72
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.72
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue. Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:52.72
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.62
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.62
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.62
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:52.62
+GET
+---
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.registerStockRoutes (/vercel/path0/api/stocks.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.55
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/brokers
+TypeError: app.get is not a function at Object.registerBrokerRoutes (/vercel/path0/api/brokers.ts:7:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.55
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/watchlist
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema.js' imported from /var/task/api/watchlist.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20) at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Nov 26 17:31:52.55
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/news
+TypeError: app.get is not a function at Object.registerNewsRoutes (/vercel/path0/api/news.ts:6:7) at r (/opt/rust/nodejs.js:2:15576) at Server.<anonymous> (/opt/rust/nodejs.js:2:11599) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async Server.<anonymous> (/opt/rust/nodejs.js:16:7810)
+Nov 26 17:31:52.55
+GET
+500
+nairobi-stocks-watch-hkui0ahd6-derick-gikonyos-projects.vercel.app
+/api/stocks
+TypeError: app.get is not a function at Object.r

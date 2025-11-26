@@ -1,4 +1,4 @@
-import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type Broker, type InsertBroker, type BrokerInvestment, type InsertBrokerInvestment, type StockWithChange } from "@shared/schema.js";
+import { type Stock, type InsertStock, type Watchlist, type InsertWatchlist, type News, type InsertNews, type Broker, type InsertBroker, type BrokerInvestment, type InsertBrokerInvestment, type StockWithChange } from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
